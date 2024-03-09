@@ -1,15 +1,12 @@
-# circular
+# JS Circular Buffer
 
-To install dependencies:
+A Circular Buffer implemented in JavaScript.
 
-```bash
-bun install
-```
+Created with Bun v1.0.26.
 
-To run:
+Inspired by [Exercism's #48in24 challenge](https://exercism.org/challenges/48in24).
 
-```bash
-bun run index.ts
-```
+**License** MIT  
+**Author** Douglas Modena
 
-This project was created using `bun init` in bun v1.0.26. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+2024
