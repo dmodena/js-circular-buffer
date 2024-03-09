@@ -1,5 +1,7 @@
 'use strict';
 
+import { InvalidOperationError } from "./invalidOperationError";
+
 export class CircularBuffer {
     #buffer;
     #capacity;
@@ -19,7 +21,7 @@ export class CircularBuffer {
 
     read() {
         if (this.#length === 0)
-            throw new Exception('Cannot read: buffer is empty');
+            throw new InvalidOperationError('Cannot read: buffer is empty');
 
         const value = this.#buffer[this.#tail];
         this.#tail = (this.#tail + 1) % this.#capacity;
@@ -30,7 +32,7 @@ export class CircularBuffer {
 
     write(value) {
         if (this.#length === this.#capacity)
-            throw new Exception('Cannot write: buffer is full');
+            throw new InvalidOperationError('Cannot write: buffer is full');
 
         this.#buffer[this.#head] = value;
         this.#head = (this.#head + 1) % this.#capacity;

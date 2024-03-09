@@ -1,6 +1,7 @@
 'use strict';
 
 import { range } from "../lib/range";
+import { InvalidOperationError } from "../src/invalidOperationError";
 import { CircularBuffer } from "../src/circular";
 
 describe('Circular buffer', () => {
@@ -31,7 +32,7 @@ describe('Circular buffer', () => {
 
         const write = (values) => values.forEach(value => circular.write(value));
 
-        expect(() => write(items)).not.toThrow();
+        expect(() => write(items)).not.toThrow(InvalidOperationError);
     });
 
     cases = [
@@ -44,7 +45,7 @@ describe('Circular buffer', () => {
 
         items.forEach(value => circular.write(value));
 
-        expect(() => write(additional)).toThrow();
+        expect(() => circular.write(additional)).toThrow(InvalidOperationError);
     });
 
     cases = [
@@ -73,13 +74,13 @@ describe('Circular buffer', () => {
 
         const read = (values) => { for (let value of values) { circular.read() } };
 
-        expect(() => read(items)).not.toThrow();
+        expect(() => read(items)).not.toThrow(InvalidOperationError);
     });
 
     test('should throw when trying to read from empty buffer', () => {
         const circular = new CircularBuffer(3);
 
-        expect(() => circular.read()).toThrow();
+        expect(() => circular.read()).toThrow(InvalidOperationError);
     });
 
     cases = [
@@ -92,7 +93,7 @@ describe('Circular buffer', () => {
 
         const forceWrite = (values) => values.forEach(value => circular.forceWrite(value));
 
-        expect(() => forceWrite(items)).not.toThrow();
+        expect(() => forceWrite(items)).not.toThrow(InvalidOperationError);
     });
 
     test('should overwrite items on forceWrite when buffer is full', () => {
@@ -100,7 +101,7 @@ describe('Circular buffer', () => {
 
         Array.from(range(3)).forEach((value) => circular.write(value));
 
-        expect(() => circular.forceWrite(4)).not.toThrow();
+        expect(() => circular.forceWrite(4)).not.toThrow(InvalidOperationError);
     });
 
     test('should read oldest value after forceWrite', () => {
@@ -118,6 +119,6 @@ describe('Circular buffer', () => {
         circular.clear();
 
         expect(circular.length).toBe(0);
-        expect(() => circular.read()).toThrow();
+        expect(() => circular.read()).toThrow(InvalidOperationError);
     });
 });
